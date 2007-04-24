@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://chrisrichardson.net/schema/arid"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:spring="http://www.springframework.org/schema/beans"
+	targetNamespace="http://chrisrichardson.net/schema/arid"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	>
+
+	<xsd:import namespace="http://www.springframework.org/schema/beans"/>
+	<xsd:element name="define-beans">
+		<xsd:complexType>
+			<xsd:sequence minOccurs="0">
+				<xsd:element ref="extras"/>
+			</xsd:sequence>
+			<xsd:attribute name="package" type="xsd:string" />
+			<xsd:attribute name="pattern" type="xsd:string" />
+			<xsd:attribute name="autowire" type="xsd:string" />
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="extras">
+		<xsd:complexType>
+			<xsd:sequence minOccurs="1">
+				<xsd:element ref="spring:bean" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+</xsd:schema>

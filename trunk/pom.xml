@@ -31,7 +31,6 @@
 		</repository>
 	</repositories>
 
-
 	<build>
 		<plugins>
 			<plugin>
@@ -53,5 +52,23 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<distributionManagement>
+		<repository>
+			<id>sftp-repository</id>
+			<url>
+				sftp://chilco.textdrive.com/users/home/pojosinaction/web/public/repository
+			</url>
+		</repository>
+	</distributionManagement>
+
+	<contributors>
+		<contributor>
+			<name>Chris Richardson</name>
+			<organizationUrl>www.chrisrichardson.net</organizationUrl>
+			<email>cer@acm.org</email>
+		</contributor>
+	</contributors>
+
 
 </project>

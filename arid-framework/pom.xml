@@ -131,14 +131,4 @@
 
 	</dependencies>
 
-	<distributionManagement>
-		<repository>
-			<id>sftp-repository</id>
-			<url>
-				sftp://chilco.textdrive.com/users/home/pojosinaction/web/public/repository
-			</url>
-		</repository>
-	</distributionManagement>
-
-
 </project>

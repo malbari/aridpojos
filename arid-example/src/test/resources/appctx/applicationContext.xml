@@ -9,8 +9,6 @@
 
 	<!--  Database access  -->
 	
-	<!-- $pia-lab-begin(hello-world)$ -->
-	
 	<bean id="dataSource" lazy-init="true"
 		class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="org.hsqldb.jdbcDriver"/>
@@ -67,7 +65,5 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	
-
-
 
 </beans>

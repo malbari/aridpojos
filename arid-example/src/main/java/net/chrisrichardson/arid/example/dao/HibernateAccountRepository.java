@@ -4,7 +4,6 @@ import net.chrisrichardson.arid.example.annotations.RepositoryImpl;
 import net.chrisrichardson.arid.example.domain.Account;
 import net.chrisrichardson.arid.example.domain.AccountRepository;
 
-import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 @RepositoryImpl

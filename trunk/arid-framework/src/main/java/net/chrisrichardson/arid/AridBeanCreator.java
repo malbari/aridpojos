@@ -11,6 +11,7 @@ import java.util.Map;
 import org.springframework.aop.aspectj.TypePatternClassFilter;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
+import org.springframework.beans.factory.parsing.ReaderContext;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -31,10 +32,13 @@ public class AridBeanCreator {
 
 	private BeanDefinitionParserDelegate delegate;
 
+	private final ReaderContext readerContext;
+
 	public AridBeanCreator(String beanNameGeneratorName,
 			ResourcePatternResolver resourcePatternResolver,
 			BeanDefinitionRegistry beanDefinitionRegistry,
-			BeanDefinitionParserDelegate parserDelegate) {
+			BeanDefinitionParserDelegate parserDelegate, ReaderContext readerContext) {
+		this.readerContext = readerContext;
 		beanNameGenerator = getBeanNameGenerator(beanNameGeneratorName);
 		rl = resourcePatternResolver;
 		registry = beanDefinitionRegistry;
@@ -81,12 +85,19 @@ public class AridBeanCreator {
 			return (AridBeanNameGenerator) Class.forName(attribute)
 					.newInstance();
 		} catch (InstantiationException e) {
-			throw new RuntimeException(e);
+			fatal(e);
+			return null;
 		} catch (IllegalAccessException e) {
-			throw new RuntimeException(e);
+			fatal(e);
+			return null;
 		} catch (ClassNotFoundException e) {
-			throw new RuntimeException(e);
+			fatal(e);
+			return null;
 		}
+	}
+
+	private void fatal(Throwable e) {
+		readerContext.fatal(e.getMessage(), null, e);
 	}
 
 	List<Class> getClasses(String packageName) {
@@ -107,9 +118,11 @@ public class AridBeanCreator {
 					result.add(type);
 			}
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			fatal(e);
+			return null;
 		} catch (ClassNotFoundException e) {
-			throw new RuntimeException(e);
+			fatal(e);
+			return null;
 		}
 		return result;
 	}

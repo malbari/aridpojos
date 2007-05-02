@@ -27,7 +27,7 @@ public class AridBeansDefinitionParser implements BeanDefinitionParser {
 		BeanDefinitionRegistry registry = parserContext.getReaderContext()
 				.getRegistry();
 		AridBeanCreator aridBeanCreator = new AridBeanCreator(
-				beanNameGeneratorName, resourceLoader, registry, delegate);
+				beanNameGeneratorName, resourceLoader, registry, delegate, parserContext.getReaderContext());
 		aridBeanCreator.createBeans(element, packageName, pattern, autowire);
 		return null;
 	}

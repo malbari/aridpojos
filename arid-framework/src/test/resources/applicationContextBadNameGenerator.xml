@@ -6,20 +6,7 @@
        http://chrisrichardson.net/schema/arid http://chrisrichardson.net/schema/arid.xsd">
 
 	<arid:define-beans package="net.chrisrichardson.arid.beans1"
-		name-generator="net.chrisrichardson.arid.ImplementationSuffixStrippingNameGenerator"
+		name-generator="IDontExist"
 	/>
-
-	<arid:define-beans package="net.chrisrichardson.arid.beans2"
-		pattern="*..*arImpl"
-		autowire="byType"  
-	/>
-	
-	<arid:define-beans package="net.chrisrichardson.arid.beans3">
-		<arid:extras>
-			<bean name="baz">
-				<property name="name" value="Baz" />
-			</bean>
-		</arid:extras>
-	</arid:define-beans>
 
 </beans>

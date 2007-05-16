@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>net.chrisrichardson</groupId>
@@ -13,7 +11,9 @@
 	<modules>
 		<module>arid-framework</module>
 		<module>arid-example</module>
-	</modules>
+		<module>arid-dao</module>
+    <module>arid-domain</module>
+  </modules>
 
 	<scm>
 		<connection>
@@ -30,6 +30,85 @@
 			<url>http://www.pojosinaction.com/repository</url>
 		</repository>
 	</repositories>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring</artifactId>
+				<version>2.0.4</version>
+
+				<exclusions>
+					<exclusion>
+						<artifactId>spring-remoting</artifactId>
+						<groupId>org.springframework</groupId>
+					</exclusion>
+
+					<exclusion>
+						<artifactId>spring-support</artifactId>
+						<groupId>org.springframework</groupId>
+					</exclusion>
+
+					<exclusion>
+						<artifactId>spring-hibernate</artifactId>
+						<groupId>org.springframework</groupId>
+					</exclusion>
+
+					<exclusion>
+						<artifactId>spring-core</artifactId>
+						<groupId>org.springframework</groupId>
+					</exclusion>
+
+					<exclusion>
+						<artifactId>spring-orm</artifactId>
+						<groupId>org.springframework</groupId>
+					</exclusion>
+
+				</exclusions>
+
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-mock</artifactId>
+				<version>2.0.4</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>spring-beans</artifactId>
+						<groupId>org.springframework</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>spring-context</artifactId>
+						<groupId>org.springframework</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>spring-core</artifactId>
+						<groupId>org.springframework</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>spring-dao</artifactId>
+						<groupId>org.springframework</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>spring-jdbc</artifactId>
+						<groupId>org.springframework</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>spring-jpa</artifactId>
+						<groupId>org.springframework</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>spring-webmvc</artifactId>
+						<groupId>org.springframework</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate</artifactId>
+				<version>3.2.2.ga</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<build>
 		<plugins>

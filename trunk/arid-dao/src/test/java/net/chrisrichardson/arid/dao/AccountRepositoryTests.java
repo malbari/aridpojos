@@ -32,6 +32,10 @@ public class AccountRepositoryTests extends
 		return "Foo." + System.nanoTime();
 	}
 
+	public void testNaming() {
+		assertNotNull(applicationContext.getBean("accountRepository", AccountRepository.class));
+	}
+	
 	public void testBasic() {
 		accountRepository.add(a);
 		

@@ -2,6 +2,7 @@ package net.chrisrichardson.arid.dao;
 
 import java.util.List;
 
+import net.chrisrichardson.arid.dao.exampledomain.AccountRepository;
 import net.chrisrichardson.arid.dao.exampledomain.Customer;
 import net.chrisrichardson.arid.dao.exampledomain.CustomerRepository;
 
@@ -30,6 +31,10 @@ public class CustomerRepositoryTests extends
 	
 	private String generateCustomerId() {
 		return "Foo." + System.nanoTime();
+	}
+	
+	public void testNaming() {
+		assertNotNull(applicationContext.getBean("customerRepository", CustomerRepository.class));
 	}
 
 	public void testBasic() {

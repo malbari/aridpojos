@@ -49,25 +49,20 @@
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 
-	<arid:define-beans package="net.chrisrichardson.arid.dao"
+	<!-- TODO - need to have a nice naming scheme -->
+	
+	<arid:define-beans package="net.chrisrichardson.arid.dao.exampledomain"
 		package-scanner="net.chrisrichardson.arid.InterfacePackageScanner"
-		pattern="net.chrisrichardson.arid.domain.GenericDao+"
+		pattern="net.chrisrichardson.arid.domain.GenericDao+ and !net..CustomerRepository"
 		bean-generator="net.chrisrichardson.arid.ChildWithConstructorArgBeanGenerator"
 		parent-bean-name="parentGenericDaoFactoryBean">
 	</arid:define-beans>
 
-<!-- 
-	<bean name="accountRepository" 
-		class="net.chrisrichardson.arid.dao.hibernate.GenericDAOFactoryBean">
-		<property name="sessionFactory" ref="sessionFactory"/>
-		<constructor-arg value="net.chrisrichardson.arid.dao.AccountRepository"/>
-	</bean>
-
-	<bean name="accountRepository"
-		parent="parentGenericDaoFactoryBean">
-		<constructor-arg value="net.chrisrichardson.arid.dao.AccountRepository"/>
-	</bean>
--->
-
+	<arid:define-beans package="net.chrisrichardson.arid.dao.exampledomain.hibernate"
+		pattern="net.chrisrichardson.arid.domain.GenericDao+"
+		package-scanner="net.chrisrichardson.arid.AbstractClassPackageScanner"
+		bean-generator="net.chrisrichardson.arid.ChildWithConstructorArgBeanGenerator"
+		parent-bean-name="parentGenericDaoFactoryBean">
+	</arid:define-beans>
 
 </beans>

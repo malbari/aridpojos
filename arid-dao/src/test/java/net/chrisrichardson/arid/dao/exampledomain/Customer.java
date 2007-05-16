@@ -1,4 +1,4 @@
-package net.chrisrichardson.arid.dao;
+package net.chrisrichardson.arid.dao.exampledomain;
 
 public class Customer {
 

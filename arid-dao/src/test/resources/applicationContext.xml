@@ -49,17 +49,16 @@
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 
-	<!-- TODO - need to have a nice naming scheme -->
-	
 	<arid:define-beans package="net.chrisrichardson.arid.dao.exampledomain"
 		package-scanner="net.chrisrichardson.arid.InterfacePackageScanner"
-		pattern="net.chrisrichardson.arid.domain.GenericDao+ and !net..CustomerRepository"
+		pattern="net.chrisrichardson.arid.domain.GenericDao+"
 		bean-generator="net.chrisrichardson.arid.ChildWithConstructorArgBeanGenerator"
 		parent-bean-name="parentGenericDaoFactoryBean">
 	</arid:define-beans>
 
 	<arid:define-beans package="net.chrisrichardson.arid.dao.exampledomain.hibernate"
 		pattern="net.chrisrichardson.arid.domain.GenericDao+"
+		name-generator="net.chrisrichardson.arid.PrefixStrippingBeanNameGenerator"
 		package-scanner="net.chrisrichardson.arid.AbstractClassPackageScanner"
 		bean-generator="net.chrisrichardson.arid.ChildWithConstructorArgBeanGenerator"
 		parent-bean-name="parentGenericDaoFactoryBean">

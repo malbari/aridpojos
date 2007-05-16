@@ -1,6 +1,7 @@
 package net.chrisrichardson.arid.dao.hibernate;
 
 import org.hibernate.criterion.DetachedCriteria;
+import org.springframework.util.Assert;
 
 public class CriteriaQueryFactory {
 
@@ -19,6 +20,8 @@ public class CriteriaQueryFactory {
 		if (methodName.equals("findAll")) {
 			// done
 		} else {
+			Assert.isTrue(methodName.startsWith("findBy"), "must start with findBy: " + methodName);
+			
 			int index = "findBy".length();
 
 			while (index != methodName.length()) {

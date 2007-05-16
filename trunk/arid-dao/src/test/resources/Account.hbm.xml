@@ -4,7 +4,7 @@
 
 <!--  $pia-lab-ignore-file(hello-world)$ -->
 
-<hibernate-mapping package="net.chrisrichardson.arid.dao"
+<hibernate-mapping package="net.chrisrichardson.arid.dao.exampledomain"
 	default-access="field">
 
 	<class name="Account" table="BANK_ACCOUNT">

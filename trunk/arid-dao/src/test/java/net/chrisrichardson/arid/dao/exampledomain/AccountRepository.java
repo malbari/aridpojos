@@ -14,44 +14,14 @@
  * limitations under the License.
  */
 
-package net.chrisrichardson.arid.dao;
+package net.chrisrichardson.arid.dao.exampledomain;
 
-public class Account {
+import java.util.List;
 
-	private int id;
+import net.chrisrichardson.arid.domain.GenericDao;
 
-	private double balance;
-
-	private String accountId;
-	
-	Account() {
-	}
-
-	public Account(String accountId, double initialBalance) {
-		this.accountId = accountId;
-		this.balance = initialBalance;
-	}
-
-	public void debit(double amount) {
-		assert amount > 0;
-		balance -= amount;
-	}
-
-	public void credit(double amount) {
-		assert amount > 0;
-		balance += amount;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public double getBalance() {
-		return balance;
-	}
-
-	public String getAccountId() {
-		return accountId;
-	}
-
+public interface AccountRepository extends GenericDao<Account, Integer> {
+	Account findByAccountId(String accountId);
+	List<Account> findByBalanceGreaterThan(double lower);
+	List<Account> findByBalanceBetween(double lo, double hi);
 }

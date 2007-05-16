@@ -2,6 +2,9 @@ package net.chrisrichardson.arid.dao;
 
 import java.util.List;
 
+import net.chrisrichardson.arid.dao.exampledomain.Account;
+import net.chrisrichardson.arid.dao.exampledomain.AccountRepository;
+
 import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
 
 public class AccountRepositoryTests extends

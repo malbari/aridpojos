@@ -1,23 +1,37 @@
 package net.chrisrichardson.arid.dao.hibernate;
 
+import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Proxy;
+
+import net.sf.cglib.proxy.Enhancer;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.FactoryBean;
+import org.springframework.orm.hibernate3.HibernateTemplate;
 
 public class GenericDAOFactoryBean implements FactoryBean {
 
-	private SessionFactory sessionFactory;
-	
+	private HibernateTemplate hibernateTemplate;
+
 	private Class daoInterface;
 
+	private Class daoSuperClass = GenericDAOHibernateImpl.class;
+
 	public GenericDAOFactoryBean(Class daoInterface) {
-		this.daoInterface = daoInterface;
+		if (Modifier.isInterface(daoInterface.getModifiers()))
+			this.daoInterface = daoInterface;
+		else {
+			this.daoSuperClass = daoInterface;
+			this.daoInterface = daoInterface.getInterfaces()[0];
+		}
 	}
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
+		this.hibernateTemplate = new HibernateTemplate(sessionFactory);
+	}
+
+	public void setHibernateTemplate(HibernateTemplate hibernateTemplate) {
+		this.hibernateTemplate = hibernateTemplate;
 	}
 
 	public Class getObjectType() {
@@ -29,13 +43,24 @@ public class GenericDAOFactoryBean implements FactoryBean {
 	}
 
 	public Object getObject() throws Exception {
-		ParameterizedType genericSuperclass = (ParameterizedType) daoInterface.getGenericInterfaces()[0];
-		GenericDAOHibernateImpl genericDao = new GenericDAOHibernateImpl((Class)genericSuperclass.getActualTypeArguments()[0], sessionFactory);
+		ParameterizedType genericSuperclass = (ParameterizedType) daoInterface
+				.getGenericInterfaces()[0];
+		Class entityClass = (Class) genericSuperclass.getActualTypeArguments()[0];
+
+		GenericDAOHibernateImpl genericDao = (GenericDAOHibernateImpl) Enhancer
+				.create(daoSuperClass, new Class[] { daoInterface },
+						new GenericDaoMethodInterceptor(hibernateTemplate,
+								entityClass));
+		genericDao.setEntityClass(entityClass);
+		genericDao.setHibernateTemplate(hibernateTemplate);
 		genericDao.afterPropertiesSet();
-		
-		return Proxy.newProxyInstance(this.getClass().getClassLoader(),
-				new Class[] { daoInterface }, new GenericDaoInvocationHandler(
-						genericDao));
+		return genericDao;
+		/*
+		 * 
+		 * return Proxy.newProxyInstance(this.getClass().getClassLoader(), new
+		 * Class[] { daoInterface }, new GenericDaoInvocationHandler(
+		 * genericDao));
+		 */
 	}
 
 }

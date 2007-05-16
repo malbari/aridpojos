@@ -1,5 +1,10 @@
 package net.chrisrichardson.arid.dao;
 
+import java.util.List;
+
+import net.chrisrichardson.arid.dao.exampledomain.Customer;
+import net.chrisrichardson.arid.dao.exampledomain.CustomerRepository;
+
 import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
 
 public class CustomerRepositoryTests extends
@@ -13,7 +18,7 @@ public class CustomerRepositoryTests extends
 	private CustomerRepository customerRepository;
 	private Customer c;
 
-	public void setAccountRepository(CustomerRepository customerRepository) {
+	public void setCustomerRepository(CustomerRepository customerRepository) {
 		this.customerRepository = customerRepository;
 	}
 	
@@ -39,6 +44,11 @@ public class CustomerRepositoryTests extends
 		
 		Customer b = customerRepository.findByCustomerId(c.getCustomerId());
 		assertNotNull(b);
+	}
+	
+	public void testFindUsingComplexQuery() {
+		List<Customer> customers = customerRepository.findUsingComplexQuery();
+		assertNull(customers);
 	}
 	
 		

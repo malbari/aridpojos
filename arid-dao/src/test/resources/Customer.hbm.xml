@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<!--  $pia-lab-ignore-file(hello-world)$ -->
+
+<hibernate-mapping package="net.chrisrichardson.arid.dao"
+	default-access="field">
+
+	<class name="Customer" table="CUSTOMER">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="customerId" column="CUSTOMER_ID" unique="true"/>
+	</class>
+
+</hibernate-mapping>
+

@@ -1,5 +1,12 @@
 package net.chrisrichardson.arid;
 
+/**
+ * Lower cases the first letter and strips off the Impl prefix (if there is one)
+ * 
+ * @author cer
+ *
+ */
+
 public class DefaultAridBeanNameGenerator implements AridBeanNameGenerator {
 	public String getBeanName(Class beanClass) {
 		String simpleName = beanClass.getSimpleName();

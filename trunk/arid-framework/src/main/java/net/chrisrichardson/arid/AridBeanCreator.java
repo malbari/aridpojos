@@ -1,7 +1,5 @@
 package net.chrisrichardson.arid;
 
-import java.io.IOException;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -13,10 +11,8 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
 import org.springframework.beans.factory.parsing.ReaderContext;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
-import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.xml.BeanDefinitionParserDelegate;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -24,9 +20,9 @@ import org.w3c.dom.NodeList;
 
 public class AridBeanCreator {
 
-	private AridBeanNameGenerator beanNameGenerator;
+	private AridBeanNameGenerator beanNameGenerator = new DefaultAridBeanNameGenerator();
 
-	private ResourcePatternResolver rl;
+	ResourcePatternResolver rl;
 
 	private BeanDefinitionRegistry registry;
 
@@ -34,23 +30,40 @@ public class AridBeanCreator {
 
 	private final ReaderContext readerContext;
 
-	public AridBeanCreator(String beanNameGeneratorName,
-			ResourcePatternResolver resourcePatternResolver,
+	private BeanDefinitionGenerator beanDefinitionGenerator = new DefaultBeanDefinitionGenerator();
+	
+	private PackageScanner packageScanner = new ConcreteClassPackageScanner();
+	
+	public AridBeanCreator(ResourcePatternResolver resourcePatternResolver,
 			BeanDefinitionRegistry beanDefinitionRegistry,
-			BeanDefinitionParserDelegate parserDelegate, ReaderContext readerContext) {
+			BeanDefinitionParserDelegate parserDelegate,
+			ReaderContext readerContext) {
 		this.readerContext = readerContext;
-		beanNameGenerator = getBeanNameGenerator(beanNameGeneratorName);
 		rl = resourcePatternResolver;
 		registry = beanDefinitionRegistry;
 		delegate = parserDelegate;
 	}
 
-	void createBeans(Element element, String packageName, String pattern,
-			int autowire) {
-		List<Class> classNames = getClasses(packageName);
+	
+	public void setBeanNameGenerator(AridBeanNameGenerator beanNameGenerator) {
+		this.beanNameGenerator = beanNameGenerator;
+	}
+
+
+	public void setBeanDefinitionGenerator(
+			BeanDefinitionGenerator beanDefinitionGenerator) {
+		this.beanDefinitionGenerator = beanDefinitionGenerator;
+	}
+
+	public void setPackageScanner(PackageScanner packageScanner) {
+		this.packageScanner = packageScanner;
+	}
+
+	void createBeans(Element element, String packageName, String pattern) {
+		List<Class> classNames = packageScanner.getClasses(this, packageName);
 		List<Class> classes = getMatchingClasses(pattern, classNames);
 		Map<String, BeanDefinition> overrides = parseOverrides(element);
-		createBeanDefinitions(classes, autowire, overrides);
+		createBeanDefinitions(classes, overrides);
 	}
 
 	Map<String, BeanDefinition> parseOverrides(Element element) {
@@ -78,61 +91,8 @@ public class AridBeanCreator {
 		return result;
 	}
 
-	AridBeanNameGenerator getBeanNameGenerator(String attribute) {
-		if (attribute == null || attribute.trim().equals(""))
-			attribute = DefaultAridBeanNameGenerator.class.getName();
-		try {
-			return (AridBeanNameGenerator) Class.forName(attribute)
-					.newInstance();
-		} catch (InstantiationException e) {
-			fatal(e);
-			return null;
-		} catch (IllegalAccessException e) {
-			fatal(e);
-			return null;
-		} catch (ClassNotFoundException e) {
-			fatal(e);
-			return null;
-		}
-	}
-
-	private void fatal(Throwable e) {
+	void fatal(Throwable e) {
 		readerContext.fatal(e.getMessage(), null, e);
-	}
-
-	List<Class> getClasses(String packageName) {
-		List<Class> result = new ArrayList<Class>();
-		try {
-			String packagePart = packageName.replace('.', '/');
-			String classPattern = "classpath*:/" + packagePart + "/**/*.class";
-			Resource[] resources = rl.getResources(classPattern);
-			for (int i = 0; i < resources.length; i++) {
-				Resource resource = resources[i];
-				String fileName = resource.getURL().toString();
-				String className = fileName.substring(
-						fileName.indexOf(packagePart),
-						fileName.length() - ".class".length())
-						.replace('/', '.');
-				Class<?> type = Class.forName(className);
-				if (isConcreteClass(type))
-					result.add(type);
-			}
-		} catch (IOException e) {
-			fatal(e);
-			return null;
-		} catch (ClassNotFoundException e) {
-			fatal(e);
-			return null;
-		}
-		return result;
-	}
-
-	boolean isConcreteClass(Class<?> type) {
-		return !type.isInterface() && !isAbstract(type);
-	}
-
-	boolean isAbstract(Class<?> type) {
-		return (type.getModifiers() ^ Modifier.ABSTRACT) == 0;
 	}
 
 	List<Class> getMatchingClasses(String pattern, List<Class> classes) {
@@ -149,22 +109,17 @@ public class AridBeanCreator {
 		return result;
 	}
 
-	void createBeanDefinitions(List<Class> classes, int autowire,
-			Map<String, BeanDefinition> overrides) {
+	void createBeanDefinitions(List<Class> classes, Map<String, BeanDefinition> overrides) {
 		for (Class beanClass : classes)
-			createBeanDefinition(autowire, overrides, beanClass);
+			createBeanDefinition(overrides, beanClass);
 
 	}
 
-	void createBeanDefinition(int autowire,
-			Map<String, BeanDefinition> overrides, Class beanClass) {
+	void createBeanDefinition(Map<String, BeanDefinition> overrides,
+			Class beanClass) {
 		{
-			BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder
-					.rootBeanDefinition(beanClass);
-			beanDefinitionBuilder.setAutowireMode(autowire);
 			String beanName = beanNameGenerator.getBeanName(beanClass);
-			AbstractBeanDefinition beanDefinition = beanDefinitionBuilder
-					.getBeanDefinition();
+			AbstractBeanDefinition beanDefinition = beanDefinitionGenerator.makeBeanDefinition(beanClass);
 			BeanDefinition overridingBeanDefinition = overrides.get(beanName);
 			if (overridingBeanDefinition != null) {
 				((AbstractBeanDefinition) overridingBeanDefinition)

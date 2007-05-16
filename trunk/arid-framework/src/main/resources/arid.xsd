@@ -16,6 +16,9 @@
 			<xsd:attribute name="pattern" type="xsd:string" />
 			<xsd:attribute name="autowire" type="xsd:string" />
 			<xsd:attribute name="name-generator" type="xsd:string" />
+			<xsd:attribute name="bean-generator" type="xsd:string" />
+			<xsd:attribute name="parent-bean-name" type="xsd:string" />
+			<xsd:attribute name="package-scanner" type="xsd:string" />
 		</xsd:complexType>
 	</xsd:element>
 	

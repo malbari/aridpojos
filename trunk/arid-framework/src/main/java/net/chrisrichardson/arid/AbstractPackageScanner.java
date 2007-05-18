@@ -24,7 +24,7 @@ public abstract class AbstractPackageScanner implements PackageScanner {
 						.replace('/', '.');
 				Class<?> type = Class.forName(className);
 				if (isMatch(type))
-					result.add(type);
+					result = addNewType(result, type);
 			}
 		} catch (IOException e) {
 			creator.fatal(e);
@@ -33,6 +33,11 @@ public abstract class AbstractPackageScanner implements PackageScanner {
 			creator.fatal(e);
 			return null;
 		}
+		return result;
+	}
+
+	protected List<Class> addNewType(List<Class> result, Class type) {
+		result.add(type);
 		return result;
 	}
 	

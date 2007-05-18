@@ -50,16 +50,8 @@
 	</bean>
 
 	<arid:define-beans package="net.chrisrichardson.arid.dao.exampledomain"
-		package-scanner="net.chrisrichardson.arid.InterfacePackageScanner"
+		package-scanner="net.chrisrichardson.arid.InterfaceAndAbstractClassPackageScanner"
 		pattern="net.chrisrichardson.arid.domain.GenericDao+"
-		bean-generator="net.chrisrichardson.arid.ChildWithConstructorArgBeanGenerator"
-		parent-bean-name="parentGenericDaoFactoryBean">
-	</arid:define-beans>
-
-	<arid:define-beans package="net.chrisrichardson.arid.dao.exampledomain.hibernate"
-		pattern="net.chrisrichardson.arid.domain.GenericDao+"
-		name-generator="net.chrisrichardson.arid.PrefixStrippingBeanNameGenerator"
-		package-scanner="net.chrisrichardson.arid.AbstractClassPackageScanner"
 		bean-generator="net.chrisrichardson.arid.ChildWithConstructorArgBeanGenerator"
 		parent-bean-name="parentGenericDaoFactoryBean">
 	</arid:define-beans>

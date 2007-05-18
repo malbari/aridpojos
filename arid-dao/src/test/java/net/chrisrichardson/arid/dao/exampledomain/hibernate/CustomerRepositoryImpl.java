@@ -6,7 +6,7 @@ import net.chrisrichardson.arid.dao.exampledomain.Customer;
 import net.chrisrichardson.arid.dao.exampledomain.CustomerRepository;
 import net.chrisrichardson.arid.dao.hibernate.GenericDAOHibernateImpl;
 
-public abstract class HibernateCustomerRepository extends GenericDAOHibernateImpl<Customer, Integer>
+public abstract class CustomerRepositoryImpl extends GenericDAOHibernateImpl<Customer, Integer>
 	implements CustomerRepository {
 	
 	public List<Customer> findUsingComplexQuery() {

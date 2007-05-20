@@ -55,12 +55,6 @@ public class GenericDAOFactoryBean implements FactoryBean {
 		genericDao.setHibernateTemplate(hibernateTemplate);
 		genericDao.afterPropertiesSet();
 		return genericDao;
-		/*
-		 * 
-		 * return Proxy.newProxyInstance(this.getClass().getClassLoader(), new
-		 * Class[] { daoInterface }, new GenericDaoInvocationHandler(
-		 * genericDao));
-		 */
 	}
 
 }

@@ -20,9 +20,9 @@ public class CriteriaQueryFactory {
 		if (methodName.equals("findAll")) {
 			// done
 		} else {
-			Assert.isTrue(methodName.startsWith("findBy"), "must start with findBy: " + methodName);
+			Assert.isTrue(methodName.startsWith("findBy") || methodName.startsWith("findRequiredBy"), "must start with findBy or findRequiredBy: " + methodName);
 			
-			int index = "findBy".length();
+			int index = methodName.startsWith("findRequiredBy") ? "findRequiredBy".length() : "findBy".length();
 
 			while (index != methodName.length()) {
 				int keywordStart = -1;

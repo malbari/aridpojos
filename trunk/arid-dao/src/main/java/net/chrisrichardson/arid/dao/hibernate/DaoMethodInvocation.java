@@ -1,7 +1,9 @@
 package net.chrisrichardson.arid.dao.hibernate;
 
+import java.util.List;
+
 public interface DaoMethodInvocation {
 
-	Object invoke(Object[] args);
+	List invoke(Object[] args);
 
 }

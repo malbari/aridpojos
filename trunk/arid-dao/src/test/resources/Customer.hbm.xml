@@ -2,8 +2,6 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
-<!--  $pia-lab-ignore-file(hello-world)$ -->
-
 <hibernate-mapping package="net.chrisrichardson.arid.dao.exampledomain"
 	default-access="field">
 
@@ -12,6 +10,16 @@
 			<generator class="native" />
 		</id>
 		<property name="customerId" column="CUSTOMER_ID" unique="true"/>
+		<property name="firstName" column="FIRST_NAME"/>
+		<property name="lastName" column="LAST_NAME"/>
+		
+		<query name="findUsingSomeStrangeNamedQuery">
+			from Customer where firstName = ? and lastName = ?
+		</query>
+
+		<query name="findRequiredUsingSomeStrangeNamedQuery">
+			from Customer where firstName = ? and lastName = ?
+		</query>
 	</class>
 
 </hibernate-mapping>

@@ -24,6 +24,15 @@
 			</includes>
 		</fileSet>
 		<fileSet>
+			<directory>arid-dao/target</directory>
+			<outputDirectory>lib</outputDirectory>
+			<includes>
+				<include>
+					arid-dao-1.0-SNAPSHOT.jar
+				</include>
+			</includes>
+		</fileSet>
+		<fileSet>
 			<directory>src</directory>
 		</fileSet>
 	</fileSets>

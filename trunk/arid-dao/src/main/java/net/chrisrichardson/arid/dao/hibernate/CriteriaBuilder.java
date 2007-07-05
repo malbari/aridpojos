@@ -18,9 +18,13 @@ public class CriteriaBuilder {
 
 	private int argIndex = 0;
 
-	public CriteriaBuilder(Class entityClass, Object[] args) {
+	public CriteriaBuilder(Class<?> entityClass, Object[] args) {
 		this.args = args;
-		this.criteria = DetachedCriteria.forClass(entityClass);
+		this.criteria = makeDetachedCriteria(entityClass);
+	}
+
+	protected DetachedCriteria makeDetachedCriteria(Class<?> entityClass) {
+		return DetachedCriteria.forClass(entityClass);
 	}
 
 	public DetachedCriteria getCriteriaQuery() {
@@ -29,12 +33,12 @@ public class CriteriaBuilder {
 		return criteria;
 	}
 
-	public static List<String> getKeywords() {
+	public static List<String> getKeywordsLongestFirst() {
 		List<String> result = getHandleMethods();
 		Collections.sort(result, new Comparator<String>(){
 
 			public int compare(String o1, String o2) {
-				return o1.length() - o2.length();
+				return o2.length() - o1.length();
 			}});
 		
 		return result;

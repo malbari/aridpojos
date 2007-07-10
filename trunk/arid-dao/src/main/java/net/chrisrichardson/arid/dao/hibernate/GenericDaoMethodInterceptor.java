@@ -60,6 +60,14 @@ public class GenericDaoMethodInterceptor implements MethodInterceptor {
 		if (invocation != null)
 			return invocation;
 
+		invocation = makeInvocation(methodName);
+		
+		invocationMap.put(methodName, invocation);
+		 
+		return invocation;
+	}
+
+	private DaoMethodInvocation makeInvocation(String methodName) {
 		if (isNamedQuery(methodName)) {
 			return new NamedQueryInvocation(hibernateTemplate, entityClass,
 					methodName);

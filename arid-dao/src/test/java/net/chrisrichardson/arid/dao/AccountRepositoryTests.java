@@ -64,5 +64,12 @@ public class AccountRepositoryTests extends
 		assertFalse(accounts.isEmpty());
 	}
 
+	public void testFindByBalanceBetweenTwice() {
+		accountRepository.add(a);
+		
+		assertFalse(accountRepository.findByBalanceBetween(0.5, 10.0).isEmpty());
+		assertFalse(accountRepository.findByBalanceBetween(0.5, 10.0).isEmpty());
+	}
+
 		
 }

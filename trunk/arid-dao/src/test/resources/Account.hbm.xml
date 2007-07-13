@@ -11,7 +11,7 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="accountId" column="ACCOUNT_ID" unique="true"/>
+		<property name="accountId" column="ACCOUNT_ID" unique="true" type="string"/>
 		<property name="balance" column="BALANCE"/>
 	</class>
 

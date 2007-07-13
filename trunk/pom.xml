@@ -13,6 +13,7 @@
 		<module>arid-example</module>
 		<module>arid-dao</module>
     <module>arid-domain</module>
+    <module>arid-base</module>
   </modules>
 
 	<scm>

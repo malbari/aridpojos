@@ -38,6 +38,7 @@ public class CriteriaQueryFactoryTests extends MockObjectTestCase {
 		);
 		DetachedCriteria result = factory.makeCriteriaQuery(new Object[]{"x", 1, 5});
 		assertNotNull(result);
+		verify();
 	}
 
 	public void testMultiple() {
@@ -50,6 +51,7 @@ public class CriteriaQueryFactoryTests extends MockObjectTestCase {
 		);
 		DetachedCriteria result = factory.makeCriteriaQuery(new Object[]{"x", 1, 5});
 		assertNotNull(result);
+    verify();
 	}
 
 	public void testFindByJustProperty() {
@@ -61,6 +63,7 @@ public class CriteriaQueryFactoryTests extends MockObjectTestCase {
 		);
 		DetachedCriteria result = factory.makeCriteriaQuery(new Object[]{"x"});
 		assertNotNull(result);
+    verify();
 	}
 
 	public void testFindRequiredByJustProperty() {
@@ -72,6 +75,7 @@ public class CriteriaQueryFactoryTests extends MockObjectTestCase {
 		);
 		DetachedCriteria result = factory.makeCriteriaQuery(new Object[]{"x"});
 		assertNotNull(result);
+    verify();
 	}
 
 	public void testTwoThings() {
@@ -84,6 +88,7 @@ public class CriteriaQueryFactoryTests extends MockObjectTestCase {
 		);
 		DetachedCriteria result = factory.makeCriteriaQuery(new Object[]{"x", 1, 5});
 		assertNotNull(result);
+		verify();
 	}
 
 }

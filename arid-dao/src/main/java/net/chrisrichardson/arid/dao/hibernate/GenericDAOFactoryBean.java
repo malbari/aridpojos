@@ -35,7 +35,7 @@ public class GenericDAOFactoryBean implements FactoryBean, InitializingBean {
 	
 	public void afterPropertiesSet() throws Exception {
 		Assert.notNull(hibernateTemplate, "Inject a SessionFactory or a HibernateTemplate");
-		Assert.isTrue(helper.isValid(), "Must be an interface that extends GenericDao or a class that extends GenericHibernateDaoImpl and implements an interface that extends GenericDao");
+		Assert.isTrue(helper.isValid(), "Must be an interface that extends GenericDao or a class that extends GenericHibernateDaoImpl and implements an interface that extends GenericDao: " + daoInterfaceOrClass.getName());
 	}
 
 

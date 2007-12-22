@@ -23,4 +23,4 @@ If you are using Maven2 you can simply define the following dependencies.
 </dependency>
 }}}
 ==Download the JARs==
-Alternatively, you can download the latest [http://code.google.com/p/aridpojos/downloads/list distribution] and use the jars in the lib directory.
+Alternatively, you can download the latest [http://code.google.com/p/aridpojos/downloads/list distribution] and use the jars in the lib directory. However, these jars are not updated regularly

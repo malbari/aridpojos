@@ -2,14 +2,14 @@
 	<parent>
 		<artifactId>aridpojos</artifactId>
 		<groupId>net.chrisrichardson</groupId>
-		<version>1.0</version>
+		<version>1.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.chrisrichardson</groupId>
 	<artifactId>arid-base</artifactId>
 	<name>arid-base</name>
-	<version>1.0</version>
+	<version>1.1-SNAPSHOT</version>
 	<url>http://maven.apache.org</url>
 	<dependencies>
 		<dependency>

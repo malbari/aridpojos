@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:arid="http://chrisrichardson.net/schema/arid"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://chrisrichardson.net/schema/arid http://chrisrichardson.net/schema/arid.xsd">
+
+	<arid:define-beans package="net.chrisrichardson.arid.beans1"
+		name-generator="net.chrisrichardson.arid.ImplementationSuffixStrippingNameGenerator" />
+
+	<arid:define-beans package="net.chrisrichardson.arid.beans2"
+		pattern="*..*arImpl" autowire="byType" />
+
+	<arid:define-beans package="net.chrisrichardson.arid.beans3">
+		<arid:extras>
+			<bean name="baz">
+				<property name="name" value="Baz" />
+			</bean>
+		</arid:extras>
+	</arid:define-beans>
+
+</beans>

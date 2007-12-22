@@ -2,6 +2,7 @@ package net.chrisrichardson.arid.dao.hibernate;
 
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 import org.springframework.util.Assert;
 
@@ -76,7 +77,8 @@ public class ParameterizedGenericDaoLocator {
 		ParameterizedType parameterizedGenericDao = locate();
 		Assert.notNull(parameterizedGenericDao, "Couldn't find parameterized GenericDao");
 		
-		return (Class) parameterizedGenericDao.getActualTypeArguments()[0];
+		Type type = parameterizedGenericDao.getActualTypeArguments()[0];
+    return (Class) type;
 		
 	}
 

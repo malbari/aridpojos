@@ -9,5 +9,6 @@ public interface GenericDao<T, U extends Serializable> {
 	public T findReferenceById(U pk);
 	public T findRequiredById(U pk);
 	public T merge(T object);
-	public Class getType();
+	public void delete(T object);
+	public Class getEntityType();
 }

@@ -19,7 +19,7 @@ public class GenericDAOFactoryBeanTests extends TestCase {
 		assertTrue(AccountRepository.class.isAssignableFrom(gdfb
 				.getObjectType()));
 		assertEquals(Account.class, ((AccountRepository) gdfb.getObject())
-				.getType());
+				.getEntityType());
 	}
 
 	public void testWithClassThatExtendsInterface() throws Exception {
@@ -29,7 +29,7 @@ public class GenericDAOFactoryBeanTests extends TestCase {
 		assertTrue(CustomerRepository.class.isAssignableFrom(gdfb
 				.getObjectType()));
 		assertEquals(Customer.class, ((CustomerRepository) gdfb.getObject())
-				.getType());
+				.getEntityType());
 	}
 
 	public void testWithWeirdClassThatExtendsGenericDaoDirectly()

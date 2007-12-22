@@ -28,7 +28,7 @@
 
 		<property name="mappingLocations">
 			<list>
-				<value>classpath:*.hbm.xml</value>
+				<value>classpath:/*.hbm.xml</value>
 			</list>
 		</property>
 

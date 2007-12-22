@@ -22,6 +22,8 @@ import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
 public class GenericDaoMethodInterceptor implements MethodInterceptor {
+	private static final String FIND_REQUIRED_PREFIX = "findRequired";
+
 	private ConcurrentMap<String, DaoMethodInvocation> invocationMap = new ConcurrentHashMap<String, DaoMethodInvocation>();
 
 	private HibernateTemplate hibernateTemplate;
@@ -40,7 +42,7 @@ public class GenericDaoMethodInterceptor implements MethodInterceptor {
 			return proxy.invokeSuper(obj, args);
 		} else {
 			DaoMethodInvocation invocation = getInvocation(method.getName());
-			boolean resultRequired = method.getName().startsWith("findRequired");
+			boolean resultRequired = method.getName().startsWith(FIND_REQUIRED_PREFIX);
 			List result = invocation.invoke(args);
 			if (Collection.class.isAssignableFrom(method.getReturnType())) {
 				if (resultRequired && result.isEmpty())
@@ -68,28 +70,42 @@ public class GenericDaoMethodInterceptor implements MethodInterceptor {
 	}
 
 	private DaoMethodInvocation makeInvocation(String methodName) {
-		if (isNamedQuery(methodName)) {
+		String namedQuery = findNamedQuery(methodName);
+		if (namedQuery != null) {
 			return new NamedQueryInvocation(hibernateTemplate, entityClass,
-					methodName);
+					namedQuery);
 		} else
 			return new VirtualMethodInvocation(hibernateTemplate, entityClass,
 					methodName);
 	}
 
-	private boolean isNamedQuery(final String methodName) {
-		return (Boolean) hibernateTemplate.execute(new HibernateCallback() {
+	private String findNamedQuery(final String methodName) {
+		return (String) hibernateTemplate.execute(new HibernateCallback() {
 
 			public Object doInHibernate(Session session)
 					throws HibernateException, SQLException {
-				try {
-					session.getNamedQuery(entityClass.getName() + "."
-							+ methodName);
-					return true;
-				} catch (HibernateException e) {
-					return false;
+				if (isNamedQuery(methodName, session))
+					return methodName;
+				// FIXME - write tests for this
+				if (methodName.startsWith(FIND_REQUIRED_PREFIX)) {
+					String simplerName = "find" + methodName.substring(FIND_REQUIRED_PREFIX.length());
+					if (isNamedQuery(simplerName, session))
+						return simplerName;
 				}
+				return null;
 			}
+
 		});
+	}
+
+	private boolean isNamedQuery(final String methodName, Session session) {
+		try {
+			session.getNamedQuery(entityClass.getName() + "."
+					+ methodName);
+			return true;
+		} catch (HibernateException e) {
+			return false;
+		}
 	}
 
 }

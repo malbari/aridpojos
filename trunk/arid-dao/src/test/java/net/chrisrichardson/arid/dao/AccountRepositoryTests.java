@@ -12,7 +12,7 @@ public class AccountRepositoryTests extends
 
 	@Override
 	protected String[] getConfigLocations() {
-		return new String[]{"applicationContext.xml"};
+		return new String[]{"/applicationContext.xml"};
 	}
 	
 	private AccountRepository accountRepository;
